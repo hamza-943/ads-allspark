@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown } from "lucide-react";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -13,7 +12,6 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export default function Navbar2() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
 
   // Scroll event to toggle sticky navbar

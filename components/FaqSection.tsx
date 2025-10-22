@@ -12,20 +12,7 @@ import {
 import { motion, Variants } from "framer-motion";
 
 
-interface faq {
-  img1: string;
-  img2: string;
-  img3: string;
-  alt1: string;
-  alt2: string;
-  alt3: string;
-  subtitle: string;
-  title: string;
-  faqs: {
-    question: string;
-    answer: string;
-  }[];
-}
+
 
 export default function FaqSection() {
   const faq = {

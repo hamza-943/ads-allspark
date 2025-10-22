@@ -1,6 +1,5 @@
 // components/SalesEngineSection.tsx
 import Image from "next/image";
-import { FormEvent } from "react";
 
 export default function SalesEngineSection() {
   return (

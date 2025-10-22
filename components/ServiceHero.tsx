@@ -4,7 +4,6 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import img1 from "@/public/images/serviceshape1.png"
 import img2 from "@/public/images/serviceshape2.png"
-import arrow from "@/public/images/arrow.png"
 import arrowleft from "@/public/images/leftarrow.png"
 import arrowright from "@/public/images/rightarrow.png"
 import { usePathname } from "next/navigation";

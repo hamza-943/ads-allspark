@@ -1,6 +1,5 @@
 // components/RoadmapSection.tsx
 import Image from "next/image";
-import { FormEvent } from "react";
 
 export default function RoadmapSection() {
  

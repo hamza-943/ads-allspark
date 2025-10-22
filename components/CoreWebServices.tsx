@@ -1,7 +1,7 @@
 // app/components/CoreWebServices.tsx
 "use client";
 
-import { Globe, Layers, Code2, Database, Settings, MonitorSmartphone } from "lucide-react";
+import {  Layers, Code2, Database, Settings, MonitorSmartphone } from "lucide-react";
 
 const services = [
   {
