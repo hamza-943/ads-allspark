@@ -90,17 +90,8 @@ export default function CoreWebServices() {
     <section className="pad bg-white" id="services">
       <div className="container sm:text-center">
         {/* Section Header */}
-        <div className="w-full lg:w-[80%]">
-          <div className="flex justify-start items-center gap-[10px] mb-[10px]">
-            <GiStarShuriken className="subheading color" />
-            <p className="text-[var(--primary)] font-[600] text-[20px] color">
-              PORTFOLIO
-            </p>
-          </div>
-
-          <p className="font-bold heading color">
-            Create next-level digital products
-          </p>
+        <div className="w-full lg:w-[80%] mx-auto">
+         <h2 className="heading font-bold color"> Services We Offers </h2> <p className="mt-3 para text-gray-600 max-w-3xl mx-auto"> As a leading website development company, we deliver end-to-end web solutions designed to boost performance, usability, and business growth. </p>
         </div>
 
         {/* Slider */}

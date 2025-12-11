@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { motion } from "framer-motion";
 import { baseURL } from '@/api/baseURL'
 import ReCAPTCHA from 'react-google-recaptcha';
-
+import { IoIosArrowForward } from "react-icons/io"; 
 interface HeroData {
   btnText: string;
   btnText2: string;
@@ -155,10 +155,10 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
     'mt-[10px] text-white w-full border bg-transparent py-[10px] px-[8px] outline-none'
 
   return (
-    <div className='newservice bg text-white min-h-[680px] relative !w-[100vw] overflow-x-hidden' id='hero'>
+    <div className='newservice bg text-white  relative !w-[100vw]overflow-x-hidden' id='hero'>
       <Image src={img1} className='absolute top-0 lg:bottom-0 left-0' alt="heroimg" />
       <Image src={img2} className='absolute bottom-0 right-0 z-[0]' alt="heroimg" />
-      <div className="container flex flex-wrap lg:items-center justify-center pad">
+      <div className="container flex flex-wrap lg:items-center justify-center py-5">
         <motion.div
           className="w-full lg:w-1/2 flex flex-col items-start text-start"
           initial={{ x: -100, opacity: 0 }}
@@ -170,7 +170,7 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
               No Website = No Trust. Let’s Fix That.
             </button>
           </Link>
-          <p className='text-[30px] lg:text-[40px] 2xl:text-[50px] font-[700] sm:mt-[20px] w-full md:w-[70%] lg:w-full leading-14 font'>
+          <p className='text-[30px] lg:text-[40px] 2xl:text-[50px] font-[700] sm:mt-[20px] w-full md:w-[70%] lg:w-full sm:leading-14 font'>
             Still Running Your Business without a Proper Website?
           </p>
           <p className='w-full md:w-[80%] lg:w-full mt-[10px] text-[18px] hidden sm:block '>
@@ -179,7 +179,7 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
         </motion.div>
 
         <motion.div
-          className="w-full lg:w-1/2 lg:pl-[80px] flex flex-col items-start z-[20] mt-[20px] lg:mt-[0]"
+          className="w-full lg:w-1/2 lg:pl-[80px] flex flex-col items-start z-[20] mt-[0px] lg:mt-[0]"
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
@@ -262,7 +262,7 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
                     setMessage(e.target.value)
                     if (errors.message) setErrors(prev => ({ ...prev, message: undefined }))
                   }}
-                  className={`${baseInputClasses} min-h-[150px] ${errors.message ? 'border-red-500' : 'border'}`}
+                  className={`${baseInputClasses} min-h-[100px] ${errors.message ? 'border-red-500' : 'border'}`}
                 />
                 {errors.message && (
                   <p className="mt-1 text-xs text-red-400">{errors.message}</p>
@@ -284,15 +284,36 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
                 )}
               </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`px-[20px] py-[10px] font-[500] bg-[#F98600] rounded-[25px] text-center hover:border hover:border-white hover:bg-transparent text-white ${
-                  isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                }`}
-              >
-                {isSubmitting ? "Sending..." : serviceHero.btnText3}
-              </button>
+            <div className="w-full flex flex-col sm:flex-row mb-5 sm:gap-[20px] items-center sm:justify-start">
+  {/* Submit Button (Form) */}
+  <button
+    type="submit"
+    disabled={isSubmitting}
+    className={`px-[20px] py-[10px] font-[500] bg-[#F98600] h-12 rounded-[25px] text-center hover:border hover:border-white hover:bg-transparent text-white w-full sm:w-[48%] ${
+      isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+    }`}
+  >
+    {isSubmitting ? "Sending..." : serviceHero.btnText3}
+  </button>
+
+  {/* Schedule a Meeting Button */}
+  <Link
+    href="https://calendly.com/teepusheikh96/new-meeting"
+    passHref
+    target="_blank"
+    rel="noopener noreferrer"
+    className='w-full sm:w-[48%] h-12'
+  >
+    <button
+    type='button'
+      className="mt-6 sm:mt-0 inline-flex w-full bg-transparent items-center border-white border justify-center rounded-[25px] hover:border-0 px-5 py-0 h-12 para font-semibold text-white shadow-sm transition hover:bg-[#ff7a18] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF8C3A]"
+    >
+      <span>Schedule a Meeting</span>
+      <IoIosArrowForward className="ml-3 text-white" /> {/* Arrow icon */}
+    </button>
+  </Link>
+</div>
+
             </div>
           </form>
         </motion.div>

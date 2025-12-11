@@ -214,7 +214,7 @@ export default function ContactForm() {
               <div className="w-full mb-[20px]">
                 <label>Your Budget*</label>
                 <div className="flex flex-wrap gap-x-[15px] xl:gap-x-[35px] mt-[15px] text-white">
-                  {["$25-$50K", "$50-$80K", "$80-$100K", "$100K+"].map((range) => (
+                  {["$1K-$2K", "$2K-$3K", "$3K-$5K", "$5K-$7K", "$7K-$10K", "$10K+"].map((range) => (
                     <label key={range} className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="radio"
