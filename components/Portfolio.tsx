@@ -46,23 +46,7 @@ export default function Portfolio() {
           </p>
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex gap-[10px] justify-center sm:justify-end my-[15px]">
-          {["All", "Custom", "Wordpress"].map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-[20px] py-[5px] rounded-full font-[600] duration-300 cursor-pointer
-                ${
-                  activeFilter === filter
-                    ? "color bg-[var(--accordion)]"
-                    : "hover:bg-[var(--accordion)]"
-                }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
+      
 
         {/* Swiper Slider */}
         {filteredProjects.length === 0 ? (

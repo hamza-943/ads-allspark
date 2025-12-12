@@ -165,11 +165,11 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
         >
-          <Link href='/contact'>
+        
             <button className='flex items-center gap-[5px] border py-[10px] px-[20px] rounded-[27px] font-[500] sm:mt-[50px] lg:mt-0 hover:scale-[1.02] duration-500 hidden sm:block'>
               No Website = No Trust. Let’s Fix That.
             </button>
-          </Link>
+     
           <p className='text-[30px] lg:text-[40px] 2xl:text-[50px] font-[700] sm:mt-[20px] w-full md:w-[70%] lg:w-full sm:leading-14 font'>
             Still Running Your Business without a Proper Website?
           </p>
