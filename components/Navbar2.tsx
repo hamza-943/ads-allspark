@@ -211,11 +211,7 @@ export default function Navbar2() {
 
                   </li>
 
-                  <li className="border-b pb-3">
-                    <Link href="/#relaunch-roadmap" onClick={() => setIsSidebarOpen(false)}>
-                      Relaunch Roadmap
-                    </Link>
-                  </li>
+                
                   <li className="border-b pb-3">
                     <Link href="/#faqs" onClick={() => setIsSidebarOpen(false)}>
                       Faqs
