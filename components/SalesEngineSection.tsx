@@ -24,10 +24,10 @@ export default function SalesEngineSection() {
           rel="noopener noreferrer"
         >
           <button
-           className="mt-6 inline-flex w-48 items-center justify-center rounded-full bg-[#FF8C3A] px-5 py-3 para font-semibold text-white shadow-sm transition hover:bg-[#ff7a18] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF8C3A] "
+           className="mt-6 cursor-pointer inline-flex w-48 items-center justify-center rounded-full bg-[#FF8C3A] px-5 py-3 para font-semibold text-white shadow-sm transition hover:bg-[#ff7a18] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF8C3A] "
           
           >
-            Schedule a Meeting
+            Schedule a Call
           </button>
         </Link>
           </div>

@@ -128,7 +128,7 @@ export default function Navbar2() {
         </div>
 
         {/* Right: Get a Quote button (Desktop Only) */}
-        <div className="hidden lg:block group relative min-w-[15%] bg-[#384BFF] py-3 transition-transform duration-300 ease-out hover:scale-105 hover:bg-[#253AC7]">
+        <div className="hidden lg:block group relative min-w-[15%] bg-[#384BFF] py-3 cursor-pointer transition-transform duration-300 ease-out hover:scale-105 hover:bg-[#253AC7]">
           <Link href="#contact">
             <div className="px-4 pl-14 py-2 font-medium text-white transition-colors duration-300">
               Get a Quote &rarr;

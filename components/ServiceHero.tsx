@@ -289,11 +289,11 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
   <button
     type="submit"
     disabled={isSubmitting}
-    className={`px-[20px] py-[10px] font-[500] bg-[#F98600] h-12 rounded-[25px] text-center hover:border hover:border-white hover:bg-transparent text-white w-full sm:w-[48%] ${
+    className={`px-[20px] py-[10px] cursor-pointer font-[500] bg-[#F98600] h-12 rounded-[25px] text-center hover:border hover:border-white hover:bg-transparent text-white w-full sm:w-[48%] ${
       isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
     }`}
   >
-    {isSubmitting ? "Sending..." : serviceHero.btnText3}
+    {isSubmitting ? "Sending..." : " Get Free Proposal "}
   </button>
 
   {/* Schedule a Meeting Button */}
@@ -306,9 +306,9 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
   >
     <button
     type='button'
-      className="mt-6 sm:mt-0 inline-flex w-full bg-transparent items-center border-white border justify-center rounded-[25px] hover:border-0 px-5 py-0 h-12 para font-semibold text-white shadow-sm transition hover:bg-[#ff7a18] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F98600]"
+      className="mt-6 cursor-pointer sm:mt-0 inline-flex w-full bg-transparent items-center border-white border justify-center rounded-[25px] hover:border-0 px-5 py-0 h-12 para font-semibold text-white shadow-sm transition hover:bg-[#ff7a18] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F98600]"
     >
-      <span>Book a Free Session</span>
+      <span>Book a Free Consultation</span>
       <IoIosArrowForward className="ml-3 text-white" /> {/* Arrow icon */}
     </button>
   </Link>

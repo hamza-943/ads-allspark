@@ -326,9 +326,9 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-[20px] py-[10px] font-[500] bg-white text-[#181965] rounded-[25px] text-center border border-white hover:bg-transparent hover:text-white disabled:opacity-60"
+                className="px-[20px] py-[10px] cursor-pointer font-[500] bg-white text-[#181965] rounded-[25px] text-center border border-white hover:bg-transparent hover:text-white disabled:opacity-60"
               >
-                {loading ? "Sending..." : "Book My Free Session"}
+                {loading ? "Sending..." : "Get Free Proposal"}
               </button>
             </div>
           </form>
