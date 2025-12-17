@@ -13,6 +13,7 @@ import ThisIsYou2 from "@/components/ThisISYou2";
 import Footer from "@/components/Footer";
 import Portfolio from "@/components/Portfolio";
 import CalendlyButton from "@/components/CalendlyEmbed";
+import TestimonialsSection from "@/components/TestimonialsSection";
 
 interface HeroData {
   btnText: string;
@@ -50,6 +51,7 @@ export default function Home() {
       {/* <RoadmapSection /> */}
       {/* <MythVsReality /> */}
       <SalesEngineSection />
+      <TestimonialsSection />
       <ContactForm />
        {/* <CalendlyButton /> */}
       <FaqSection />
