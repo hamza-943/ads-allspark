@@ -48,7 +48,7 @@ export default function RootLayout({
           name="google-site-verification"
           content="NgOeMSHB2lVnom-ZkpqjyYv10Zlng_e2Cvpqovf6BIM"
         />
-
+<meta name="google-site-verification" content="G1uaovu8fDlyB3-5phzFHMeTubsdrU5pyZmKLe4l7FA" />
         {/* Rajdhani Font CDN */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

@@ -157,10 +157,22 @@ export default function Navbar2() {
             {/* Right half: white sidebar */}
             <div className="bg-white w-2/3 z-20 p-4 pt-0 shadow-md flex flex-col relative">
               {/* Close Button */}
+              <div className="flex justify-between">
+
+              <div className="mt-5 text-left">
+                <Link href="/">
+                  <Image
+                    src="/logo.svg"
+                    alt="All Spark Logo"
+                    width={150}
+                    height={150}
+                  />
+                </Link>
+              </div>
               <button
                 onClick={() => setIsSidebarOpen(false)}
-                className="mb-4 absolute top-2 right-2 self-end"
-              >
+                className="mb-4 self-end"
+                >
                 <svg
                   className="w-4 h-4"
                   fill="none"
@@ -175,16 +187,10 @@ export default function Navbar2() {
                   />
                 </svg>
               </button>
-              <div className="mt-5 mx-auto text-center">
-                <Link href="/">
-                  <Image
-                    src="/logo.svg"
-                    alt="All Spark Logo"
-                    width={150}
-                    height={150}
-                  />
-                </Link>
-              </div>
+                </div>
+
+
+
               <hr className="mt-3 " />
               <nav className="flex flex-col mx-5 mt-10 h-full">
                 <ul className="space-y-2 text-gray-900 list-none">
