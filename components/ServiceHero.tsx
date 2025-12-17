@@ -7,12 +7,13 @@ import img2 from "@/public/images/serviceshape2.png"
 import arrowleft from "@/public/images/leftarrow.png"
 import arrowright from "@/public/images/rightarrow.png"
 import { usePathname } from "next/navigation";
-import { toast } from "sonner"; // Sonner for toasts
+import { toast } from "sonner";
 import Link from 'next/link'
 import { motion } from "framer-motion";
 import { baseURL } from '@/api/baseURL'
 import ReCAPTCHA from 'react-google-recaptcha';
-import { IoIosArrowForward } from "react-icons/io"; 
+import { IoIosArrowForward } from "react-icons/io";
+
 interface HeroData {
   btnText: string;
   btnText2: string;
@@ -34,6 +35,10 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
   const [message, setMessage] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+
+  // ✅ center modal state
+  const [submitStatus, setSubmitStatus] = useState<null | "success" | "error">(null);
+  const [submitMsg, setSubmitMsg] = useState("");
 
   const [errors, setErrors] = useState<{
     name?: string;
@@ -103,6 +108,10 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    // reset modal each submit
+    setSubmitStatus(null)
+    setSubmitMsg("")
+
     if (!validate()) return
 
     const values = {
@@ -128,11 +137,12 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
       if (res.ok) {
         toast("Message Sent Successfully!", {
           description: "Message Sent Successfully. We will catch you as soon as possible.",
-          action: {
-            label: "OK",
-            onClick: () => console.log("OK clicked"),
-          },
+          action: { label: "OK", onClick: () => console.log("OK clicked") },
         });
+
+        // ✅ center success modal
+        setSubmitStatus("success");
+        setSubmitMsg("Thank you! Your message has been sent. We’ll get back to you soon.");
 
         setName("")
         setEmail("")
@@ -140,12 +150,23 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
         setMessage("")
         setCaptchaToken(null)
         setErrors({})
+
+        // auto close after 4s
+        setTimeout(() => setSubmitStatus(null), 4000);
       } else {
-        toast.error(data.error || "Something went wrong");
+        toast.error(data?.error || "Something went wrong");
+
+        // ✅ center error modal
+        setSubmitStatus("error");
+        setSubmitMsg(data?.error || "Something went wrong. Please try again later.");
       }
     } catch (err) {
       toast.error("Network error");
       console.log(err);
+
+      // ✅ center error modal
+      setSubmitStatus("error");
+      setSubmitMsg("Network error. Please try again later.");
     } finally {
       setIsSubmitting(false)
     }
@@ -155,9 +176,10 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
     'mt-[10px] text-white w-full border bg-transparent py-[10px] px-[8px] outline-none'
 
   return (
-    <div className='newservice bg text-white  relative !w-[100vw]overflow-x-hidden' id='hero'>
+    <div className='newservice bg text-white relative !w-[100vw] overflow-x-hidden' id='hero'>
       <Image src={img1} className='absolute top-0 lg:bottom-0 left-0' alt="heroimg" />
       <Image src={img2} className='absolute bottom-0 right-0 z-[0]' alt="heroimg" />
+
       <div className="container flex flex-wrap lg:items-center justify-center py-5">
         <motion.div
           className="w-full lg:w-1/2 flex flex-col items-start text-start"
@@ -165,14 +187,14 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
         >
-        
-            <button className='flex items-center gap-[5px] border py-[10px] px-[20px] rounded-[27px] font-[500] sm:mt-[50px] lg:mt-0 hover:scale-[1.02] duration-500 hidden sm:block'>
-              No Website = No Trust. Let’s Fix That.
-            </button>
-     
+          <button className='flex items-center gap-[5px] border py-[10px] px-[20px] rounded-[27px] font-[500] sm:mt-[50px] lg:mt-0 hover:scale-[1.02] duration-500 hidden sm:block'>
+            No Website = No Trust. Let’s Fix That.
+          </button>
+
           <p className='text-[30px] lg:text-[40px] 2xl:text-[50px] font-[700] sm:mt-[20px] w-full md:w-[70%] lg:w-full sm:leading-14 font'>
             Still Running Your Business without a Proper Website?
           </p>
+
           <p className='w-full md:w-[80%] lg:w-full mt-[10px] text-[18px] hidden sm:block '>
             Without a proper website, you’re invisible to 70% of buyers who search online before making a decision. We build professional websites that put your business on the map — and in front of paying customers.
           </p>
@@ -189,16 +211,17 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
             <p className='para font-[500] text-start '>{serviceHero.formSubtitle}</p>
             <Image src={arrowright} className='w-[35px]' alt='icon' />
           </div>
+
           <p className='heading font-[700] sm:my-[10px] text-start w-full'>{serviceHero.formTitle}</p>
 
           <form onSubmit={handleSubmit} className='w-full'>
             <div className='w-full flex flex-col items-center sm:items-start gap-[10px] relative z-[20]'>
-
               {/* Name + Email */}
               <div className='flex gap-[15px] mt-[0px] w-full relative z-[20]'>
                 <div className='w-full lg:w-1/2'>
                   <label htmlFor="name" className='!text-start'>Name*</label>
                   <input
+                    id="name"
                     type="text"
                     placeholder='Enter Name'
                     value={name}
@@ -208,9 +231,7 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
                     }}
                     className={`${baseInputClasses} ${errors.name ? 'border-red-500' : 'border'}`}
                   />
-                  {errors.name && (
-                    <p className="mt-1 text-xs text-red-400">{errors.name}</p>
-                  )}
+                  {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
                 </div>
 
                 <div className='w-full lg:w-1/2'>
@@ -226,9 +247,7 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
                     }}
                     className={`${baseInputClasses} ${errors.email ? 'border-red-500' : 'border'}`}
                   />
-                  {errors.email && (
-                    <p className="mt-1 text-xs text-red-400">{errors.email}</p>
-                  )}
+                  {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
                 </div>
               </div>
 
@@ -246,9 +265,7 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
                   }}
                   className={`${baseInputClasses} ${errors.phone ? 'border-red-500' : 'border'}`}
                 />
-                {errors.phone && (
-                  <p className="mt-1 text-xs text-red-400">{errors.phone}</p>
-                )}
+                {errors.phone && <p className="mt-1 text-xs text-red-400">{errors.phone}</p>}
               </div>
 
               {/* Message */}
@@ -264,9 +281,7 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
                   }}
                   className={`${baseInputClasses} min-h-[100px] ${errors.message ? 'border-red-500' : 'border'}`}
                 />
-                {errors.message && (
-                  <p className="mt-1 text-xs text-red-400">{errors.message}</p>
-                )}
+                {errors.message && <p className="mt-1 text-xs text-red-400">{errors.message}</p>}
               </div>
 
               {/* Google reCAPTCHA */}
@@ -284,40 +299,64 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
                 )}
               </div>
 
-            <div className="w-full flex flex-col sm:flex-row mb-5 sm:gap-[20px] items-center sm:justify-start">
-  {/* Submit Button (Form) */}
-  <button
-    type="submit"
-    disabled={isSubmitting}
-    className={`px-[20px] py-[10px] cursor-pointer font-[500] bg-[#F98600] h-12 rounded-[25px] text-center hover:border hover:border-white hover:bg-transparent text-white w-full sm:w-[48%] ${
-      isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-    }`}
-  >
-    {isSubmitting ? "Sending..." : " Get Free Proposal "}
-  </button>
+              <div className="w-full flex flex-col sm:flex-row mb-5 sm:gap-[20px] items-center sm:justify-start">
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`px-[20px] py-[10px] cursor-pointer font-[500] bg-[#F98600] h-12 rounded-[25px] text-center hover:border hover:border-white hover:bg-transparent text-white w-full sm:w-[48%] ${
+                    isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                  }`}
+                >
+                  {isSubmitting ? "Sending..." : " Get Free Proposal "}
+                </button>
 
-  {/* Schedule a Meeting Button */}
-  <Link
-    href="https://calendly.com/teepusheikh96/new-meeting"
-    passHref
-    target="_blank"
-    rel="noopener noreferrer"
-    className='w-full sm:w-[48%] h-12'
-  >
-    <button
-    type='button'
-      className="mt-6 cursor-pointer sm:mt-0 inline-flex w-full bg-transparent items-center border-white border justify-center rounded-[25px] hover:border-0 px-5 py-0 h-12 para font-semibold text-white shadow-sm transition hover:bg-[#ff7a18] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F98600]"
-    >
-      <span>Book a Free Consultation</span>
-      <IoIosArrowForward className="ml-3 text-white" /> {/* Arrow icon */}
-    </button>
-  </Link>
-</div>
-
+                {/* Schedule a Meeting Button */}
+                <Link
+                  href="https://calendly.com/teepusheikh96/new-meeting"
+                  passHref
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className='w-full sm:w-[48%] h-12'
+                >
+                  <button
+                    type='button'
+                    className="mt-6 cursor-pointer sm:mt-0 inline-flex w-full bg-transparent items-center border-white border justify-center rounded-[25px] hover:border-0 px-5 py-0 h-12 para font-semibold text-white shadow-sm transition hover:bg-[#ff7a18] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F98600]"
+                  >
+                    <span>Book a Free Consultation</span>
+                    <IoIosArrowForward className="ml-3 text-white" />
+                  </button>
+                </Link>
+              </div>
             </div>
           </form>
         </motion.div>
       </div>
+
+      {/* ✅ Center Thank You / Error Modal */}
+      {submitStatus && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-xl">
+            <h3
+              className={`text-xl font-bold ${
+                submitStatus === "success" ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {submitStatus === "success" ? "Thank You!" : "Oops!"}
+            </h3>
+
+            <p className="mt-2 text-gray-700">{submitMsg}</p>
+
+            <button
+              type="button"
+              onClick={() => setSubmitStatus(null)}
+              className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-white hover:bg-gray-800"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

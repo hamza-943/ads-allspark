@@ -37,9 +37,10 @@ const serviceHero: HeroData = {
 
 export default function Home() {
   return (
-    <div className=" overflow-x-hidden  ">
+    <>
       <Topnav />
       <Navbar2 />
+    <div className=" overflow-x-hidden  ">
       <ServiceHero serviceHero={serviceHero} />
       <Portfolio/>
       <div className="hidden md:block">
@@ -50,12 +51,16 @@ export default function Home() {
       <WhyChooseUsSection />
       {/* <RoadmapSection /> */}
       {/* <MythVsReality /> */}
+      <div className="!overflow-x-hidden">
+
       <SalesEngineSection />
+      </div>
       <TestimonialsSection />
       <ContactForm />
        {/* <CalendlyButton /> */}
       <FaqSection />
       <Footer/>
     </div>
+    </>
   );
 }

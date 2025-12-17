@@ -29,8 +29,12 @@ export default function ContactForm() {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // ✅ Center modal state (success/error)
+  const [submitStatus, setSubmitStatus] = useState<null | "success" | "error">(null);
+  const [submitMsg, setSubmitMsg] = useState("");
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^[0-9+\-\s()]{7,20}$/; // basic phone validation
+  const phoneRegex = /^[0-9+\-\s()]{7,20}$/;
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
@@ -67,6 +71,10 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // reset modal each submit
+    setSubmitStatus(null);
+    setSubmitMsg("");
+
     if (!validate()) return;
 
     setLoading(true);
@@ -93,7 +101,9 @@ export default function ContactForm() {
       const data = await res.json();
 
       if (data.success) {
-        alert("✅ Message sent successfully!");
+        // ✅ Center success modal
+        setSubmitStatus("success");
+        setSubmitMsg("Thank you! Your message has been sent. We’ll get back to you soon.");
 
         // Clear form
         setName("");
@@ -104,11 +114,18 @@ export default function ContactForm() {
         setIndustry("");
         setMessage("");
         setCaptchaToken(null);
+
+        // auto close after 4s
+        setTimeout(() => setSubmitStatus(null), 4000);
       } else {
         setErrors((prev) => ({
           ...prev,
           general: data.message || "Failed to send message. Please try again.",
         }));
+
+        // ✅ Center error modal
+        setSubmitStatus("error");
+        setSubmitMsg(data.message || "Failed to send message. Please try again later.");
       }
     } catch (err) {
       console.error(err);
@@ -116,6 +133,10 @@ export default function ContactForm() {
         ...prev,
         general: "⚠️ Something went wrong. Please try again later.",
       }));
+
+      // ✅ Center error modal
+      setSubmitStatus("error");
+      setSubmitMsg("⚠️ Something went wrong. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -159,9 +180,7 @@ export default function ContactForm() {
             Got an Idea in Mind? Let’s Make It Live.
           </p>
 
-          {errors.general && (
-            <p className="mb-2 text-sm text-red-400">{errors.general}</p>
-          )}
+          {errors.general && <p className="mb-2 text-sm text-red-400">{errors.general}</p>}
 
           <form className="w-full" onSubmit={handleSubmit} noValidate>
             <div className="w-full flex flex-col items-start xl:gap-[10px] mb-[20px]">
@@ -176,10 +195,9 @@ export default function ContactForm() {
                     onChange={(e) => setName(e.target.value)}
                     className="my-[10px] xl:my-[15px] text-white w-full border bg-transparent py-[10px] px-[10px]"
                   />
-                  {errors.name && (
-                    <p className="text-xs text-red-400 mt-[-5px]">{errors.name}</p>
-                  )}
+                  {errors.name && <p className="text-xs text-red-400 mt-[-5px]">{errors.name}</p>}
                 </div>
+
                 <div className="w-full lg:w-1/2">
                   <label>Your Email*</label>
                   <input
@@ -189,9 +207,7 @@ export default function ContactForm() {
                     onChange={(e) => setEmail(e.target.value)}
                     className="my-[10px] xl:my-[15px] text-white w-full border bg-transparent py-[10px] px-[10px]"
                   />
-                  {errors.email && (
-                    <p className="text-xs text-red-400 mt-[-5px]">{errors.email}</p>
-                  )}
+                  {errors.email && <p className="text-xs text-red-400 mt-[-5px]">{errors.email}</p>}
                 </div>
               </div>
 
@@ -205,9 +221,7 @@ export default function ContactForm() {
                   onChange={(e) => setPhone(e.target.value)}
                   className="my-[10px] xl:my-[15px] text-white w-full border bg-transparent py-[10px] px-[10px]"
                 />
-                {errors.phone && (
-                  <p className="text-xs text-red-400 mt-[-5px]">{errors.phone}</p>
-                )}
+                {errors.phone && <p className="text-xs text-red-400 mt-[-5px]">{errors.phone}</p>}
               </div>
 
               {/* Budget */}
@@ -227,9 +241,7 @@ export default function ContactForm() {
                     </label>
                   ))}
                 </div>
-                {errors.budget && (
-                  <p className="text-xs text-red-400 mt-1">{errors.budget}</p>
-                )}
+                {errors.budget && <p className="text-xs text-red-400 mt-1">{errors.budget}</p>}
               </div>
 
               {/* Project */}
@@ -240,25 +252,13 @@ export default function ContactForm() {
                   onChange={(e) => setProject(e.target.value)}
                   className="my-[10px] xl:my-[15px] text-white w-full border bg-transparent py-[10px] px-[10px]"
                 >
-                  <option value="" className="bg2">
-                    Please Select
-                  </option>
-                  <option value="Website Design" className="bg2">
-                    Website Design
-                  </option>
-                  <option value="Mobile App Development" className="bg2">
-                    Mobile App Development
-                  </option>
-                  <option value="E-commerce Website" className="bg2">
-                    E-commerce Website
-                  </option>
-                  <option value="Custom Software" className="bg2">
-                    Custom Software
-                  </option>
+                  <option value="" className="bg2">Please Select</option>
+                  <option value="Website Design" className="bg2">Website Design</option>
+                  <option value="Mobile App Development" className="bg2">Mobile App Development</option>
+                  <option value="E-commerce Website" className="bg2">E-commerce Website</option>
+                  <option value="Custom Software" className="bg2">Custom Software</option>
                 </select>
-                {errors.project && (
-                  <p className="text-xs text-red-400 mt-[-5px]">{errors.project}</p>
-                )}
+                {errors.project && <p className="text-xs text-red-400 mt-[-5px]">{errors.project}</p>}
               </div>
 
               {/* Industry */}
@@ -269,28 +269,14 @@ export default function ContactForm() {
                   onChange={(e) => setIndustry(e.target.value)}
                   className="my-[10px] xl:my-[15px] text-white w-full border bg-transparent py-[10px] px-[10px]"
                 >
-                  <option value="" className="bg2">
-                    Please Select
-                  </option>
-                  <option value="Healthcare" className="bg2">
-                    Healthcare
-                  </option>
-                  <option value="Education" className="bg2">
-                    Education
-                  </option>
-                  <option value="Finance" className="bg2">
-                    Finance
-                  </option>
-                  <option value="Technology" className="bg2">
-                    Technology
-                  </option>
-                  <option value="Other" className="bg2">
-                    Other
-                  </option>
+                  <option value="" className="bg2">Please Select</option>
+                  <option value="Healthcare" className="bg2">Healthcare</option>
+                  <option value="Education" className="bg2">Education</option>
+                  <option value="Finance" className="bg2">Finance</option>
+                  <option value="Technology" className="bg2">Technology</option>
+                  <option value="Other" className="bg2">Other</option>
                 </select>
-                {errors.industry && (
-                  <p className="text-xs text-red-400 mt-[-5px]">{errors.industry}</p>
-                )}
+                {errors.industry && <p className="text-xs text-red-400 mt-[-5px]">{errors.industry}</p>}
               </div>
 
               {/* Message */}
@@ -302,9 +288,7 @@ export default function ContactForm() {
                   onChange={(e) => setMessage(e.target.value)}
                   className="my-[10px] xl:my-[15px] min-h-[150px] text-white w-full border bg-transparent py-[10px] px-[10px]"
                 />
-                {errors.message && (
-                  <p className="text-xs text-red-400 mt-[-5px]">{errors.message}</p>
-                )}
+                {errors.message && <p className="text-xs text-red-400 mt-[-5px]">{errors.message}</p>}
               </div>
 
               {/* reCAPTCHA */}
@@ -317,9 +301,7 @@ export default function ContactForm() {
                   }}
                   theme="dark"
                 />
-                {errors.captcha && (
-                  <p className="text-xs text-red-400 mt-1">{errors.captcha}</p>
-                )}
+                {errors.captcha && <p className="text-xs text-red-400 mt-1">{errors.captcha}</p>}
               </div>
 
               {/* Submit Button */}
@@ -334,6 +316,31 @@ export default function ContactForm() {
           </form>
         </div>
       </div>
+
+      {/* ✅ Center Thank You / Error Modal */}
+      {submitStatus && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-xl">
+            <h3
+              className={`text-xl font-bold ${
+                submitStatus === "success" ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {submitStatus === "success" ? "Thank You!" : "Oops!"}
+            </h3>
+
+            <p className="mt-2 text-gray-700">{submitMsg}</p>
+
+            <button
+              type="button"
+              onClick={() => setSubmitStatus(null)}
+              className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-white hover:bg-gray-800"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

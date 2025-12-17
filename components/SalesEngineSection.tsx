@@ -4,7 +4,9 @@ import Link from "next/link";
 
 export default function SalesEngineSection() {
   return (
-    <section className="w-full bg-[#1B36B7] my-16 relative">
+    <div className="overflow-x-hidden">
+
+    <section className="w-full  bg-[#1B36B7] my-16 relative">
       <div className=" md:p-4">
         <div className="grid min-h-[50vh] overflow-hidden rounded-xl container md:grid-cols-2">
           {/* Left: Text */}
@@ -46,5 +48,6 @@ export default function SalesEngineSection() {
         </div>
       </div>
     </section>
+    </ div>
   );
 }
