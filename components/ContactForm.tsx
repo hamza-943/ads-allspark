@@ -228,7 +228,7 @@ export default function ContactForm() {
               <div className="w-full mb-[20px]">
                 <label>Your Budget*</label>
                 <div className="flex flex-wrap gap-x-[15px] xl:gap-x-[35px] mt-[15px] text-white">
-                  {["less than 1k", "$1K-$3K", "$3K-$5K", "$5K-$7K", "$7K-$10K", "$10K+"].map((range) => (
+                  {["Less than 1k", "$1K-$3K", "$3K-$5K", "$5K-$7K", "$7K-$10K", "$10K+"].map((range) => (
                     <label key={range} className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="radio"
@@ -253,10 +253,10 @@ export default function ContactForm() {
                   className="my-[10px] xl:my-[15px] text-white w-full border bg-transparent py-[10px] px-[10px]"
                 >
                   <option value="" className="bg2">Please Select</option>
-                  <option value="Website Design" className="bg2">Website Design</option>
+                  <option value="Website Design" className="bg2">Website Design & Development</option>
                   <option value="Mobile App Development" className="bg2">Mobile App Development</option>
                   <option value="E-commerce Website" className="bg2">E-commerce Website</option>
-                  <option value="Custom Software" className="bg2">Custom Software</option>
+                  <option value="Custom Software" className="bg2">Custom Software Development</option>
                 </select>
                 {errors.project && <p className="text-xs text-red-400 mt-[-5px]">{errors.project}</p>}
               </div>
