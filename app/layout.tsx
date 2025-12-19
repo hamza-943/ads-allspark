@@ -11,15 +11,15 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "Build Your Website | AllSpark Technologies",
+  title: "Website Design and Development Services | Scale Your ROI",
   description:
-    "Launch your business online with AllSpark Technologies’ website-building platform. Fast, professional, and tailored to help you grow with modern web tools.",
+    "Scale your ROI with expert website design and development services. We build custom, responsive sites to boost your business. Get a free, detailed quote today!",
   keywords:
-    "website builder, web development, build your website, AllSpark Technologies, business website, custom website, launch website",
+    "website design, website development, custom website, responsive design, website services, boost ROI, web development services",
   openGraph: {
-    title: "Build Your Website | AllSpark Technologies",
+    title: "Website Design and Development Services | Scale Your ROI",
     description:
-      "Build your dream website with AllSpark Technologies — modern, responsive, and optimized for your business growth.",
+      "Scale your ROI with expert website design and development services. We build custom, responsive sites to boost your business. Get a free, detailed quote today!",
     url: "https://buildyourwebsite.allsparktechnologies.com",
     siteName: "AllSpark Technologies",
     images: [
