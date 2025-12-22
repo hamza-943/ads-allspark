@@ -1,0 +1,21 @@
+// REMOVE the url line completely
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  // NO url line here!
+}
+
+model Contact {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  phone        String
+  message      String
+  service      String?
+  captchaToken String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

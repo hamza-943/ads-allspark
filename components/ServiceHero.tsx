@@ -105,72 +105,111 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
     return true
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    // reset modal each submit
-    setSubmitStatus(null)
-    setSubmitMsg("")
+  // Reset modal and status
+  setSubmitStatus(null);
+  setSubmitMsg("");
 
-    if (!validate()) return
+  // Validate form data
+  if (!validate()) return;
 
-    const values = {
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      message: message.trim(),
-      service: formattedPath,
-      captchaToken,
+  // Create values object with proper typing
+  const values = {
+    name: name.trim(),
+    email: email.trim(),
+    phone: phone.trim(),
+    message: message.trim(),
+    service: formattedPath,
+    captchaToken: captchaToken || "",  // The reCAPTCHA token
+  };
+
+  // Debug: Log the values being sent
+  console.log('Submitting values:', values);
+  console.log('API endpoint:', '/api/contact');
+
+  try {
+    setIsSubmitting(true);
+
+    // Send data to the API route for processing
+    const res = await fetch('/api/contact', {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(values),
+    });
+
+    console.log('Response status:', res.status);
+    console.log('Response headers:', Object.fromEntries(res.headers.entries()));
+    
+    const text = await res.text();
+    console.log('Response text:', text);
+    
+    let data: any;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error('Failed to parse JSON:', text);
+      throw new Error('Invalid JSON response from server');
     }
 
-    try {
-      setIsSubmitting(true)
-
-      const res = await fetch(`${baseURL}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+    if (res.ok) {
+      // Handle success
+      toast.success("Message Sent Successfully!", {
+        description: "We will get back to you as soon as possible.",
       });
 
-      const data = await res.json();
+      // Success modal
+      setSubmitStatus("success");
+      setSubmitMsg("Thank you! Your message has been sent. We'll get back to you soon.");
 
-      if (res.ok) {
-        toast("Message Sent Successfully!", {
-          description: "Message Sent Successfully. We will catch you as soon as possible.",
-          action: { label: "OK", onClick: () => console.log("OK clicked") },
-        });
+      // Clear form
+      setName("");
+      setEmail("");
+      setPhone("");
+      setMessage("");
+      setCaptchaToken(null);
+      setErrors({});
 
-        // ✅ center success modal
-        setSubmitStatus("success");
-        setSubmitMsg("Thank you! Your message has been sent. We’ll get back to you soon.");
+      // Auto close success modal after 4 seconds
+      setTimeout(() => setSubmitStatus(null), 4000);
+    } else {
+      // Handle API error response
+      console.error('API Error:', data);
+      
+      toast.error(data?.error || "Something went wrong");
 
-        setName("")
-        setEmail("")
-        setPhone("")
-        setMessage("")
-        setCaptchaToken(null)
-        setErrors({})
-
-        // auto close after 4s
-        setTimeout(() => setSubmitStatus(null), 4000);
-      } else {
-        toast.error(data?.error || "Something went wrong");
-
-        // ✅ center error modal
-        setSubmitStatus("error");
-        setSubmitMsg(data?.error || "Something went wrong. Please try again later.");
-      }
-    } catch (err) {
-      toast.error("Network error");
-      console.log(err);
-
-      // ✅ center error modal
+      // Error modal
       setSubmitStatus("error");
-      setSubmitMsg("Network error. Please try again later.");
-    } finally {
-      setIsSubmitting(false)
+      setSubmitMsg(data?.error || "Something went wrong. Please try again later.");
+      
+      // If it's a validation error, update form errors
+      if (data.missing) {
+        const newErrors: typeof errors = {};
+        if (data.missing.name) newErrors.name = "Name is required";
+        if (data.missing.email) newErrors.email = "Email is required";
+        if (data.missing.phone) newErrors.phone = "Phone is required";
+        if (data.missing.message) newErrors.message = "Message is required";
+        setErrors(newErrors);
+      }
     }
-  };
+  } catch (err: any) {
+    console.error('Network error:', err);
+    
+    toast.error("Network error. Please check your connection.");
+    
+    // Error modal
+    setSubmitStatus("error");
+    setSubmitMsg("Network error. Please try again later.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
 
   const baseInputClasses =
     'mt-[10px] text-white w-full border bg-transparent py-[10px] px-[8px] outline-none'
@@ -285,19 +324,33 @@ export default function ServiceHero({ serviceHero }: ServiceHeroProps) {
               </div>
 
               {/* Google reCAPTCHA */}
-              <div className="w-full mt-2 mb-3">
-                <ReCAPTCHA
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
-                  onChange={(token) => {
-                    setCaptchaToken(token);
-                    setErrors((prev) => ({ ...prev, captcha: undefined }));
-                  }}
-                  theme="dark"
-                />
-                {errors.captcha && (
-                  <p className="text-xs text-red-400 mt-1">{errors.captcha}</p>
-                )}
-              </div>
+           {/* Google reCAPTCHA */}
+<div className="w-full mt-2 mb-3">
+  {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
+    <ReCAPTCHA
+      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+      onChange={(token) => {
+        setCaptchaToken(token);
+        setErrors((prev) => ({ ...prev, captcha: undefined }));
+      }}
+      onErrored={() => {
+        console.error("reCAPTCHA error");
+        setErrors((prev) => ({ 
+          ...prev, 
+          captcha: "reCAPTCHA failed to load. Please refresh the page." 
+        }));
+      }}
+      theme="dark"
+    />
+  ) : (
+    <div className="text-yellow-500 text-sm">
+      Warning: reCAPTCHA site key is missing. Please add NEXT_PUBLIC_RECAPTCHA_SITE_KEY to your .env file.
+    </div>
+  )}
+  {errors.captcha && (
+    <p className="text-xs text-red-400 mt-1">{errors.captcha}</p>
+  )}
+</div>
 
               <div className="w-full flex flex-col sm:flex-row mb-5 sm:gap-[20px] items-center sm:justify-start">
                 {/* Submit Button */}
